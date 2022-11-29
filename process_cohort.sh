@@ -27,7 +27,7 @@ update_cohort_description(){
 conda_activate(){
     # Need to specify the path to ccil_vwd here if not in Desktop
     echo "conda activate ards ..."
-	cd ..
+    cd ..
     cd $PWD/ccil_vwd/
     source activate ards
 }
