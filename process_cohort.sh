@@ -10,8 +10,8 @@ anonymize_rawdata(){
     echo "Start anonymizing raw data ..."
     for dir in ${unanon_data_path}/experiment1/all_data/raw/*/; do
         # Preprocessing file from each patient directories and then anonymize data
-	    python ventmap/validate_data_type.py $dir
-		python ventmap/anonymize_datatimes.py $dir --new-cohort-file $anon_data_path/info.csv --new-dir $anon_data_path/experiment1/all_data/raw
+	python ventmap/validate_data_type.py $dir
+        python ventmap/anonymize_datatimes.py $dir --new-cohort-file $anon_data_path/info.csv --new-dir $anon_data_path/experiment1/all_data/raw
     done
 
     echo "Anonymization on raw data finished !!"
