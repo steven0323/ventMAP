@@ -7,6 +7,7 @@ out_dt_fmt = '%Y-%m-%d %H:%M:%S'
 parser = argparse.ArgumentParser()
 parser.add_argument('--shift-file', required=True)
 parser.add_argument('--non-anon-cohort-desc', required=True)
+parser.add_argument('--anon-cohort-desc',required=True)
 args = parser.parse_args()
 
 shift_file = pd.read_csv(args.shift_file)
@@ -38,4 +39,4 @@ new_cols = [
 ]
 merged = merged[new_cols]
 merged[old_pt_id_col] = merged[old_pt_id_col].astype(int)
-merged.to_csv(args.non_anon_cohort_desc, index=False)
+merged.to_csv(args.anon_cohort_desc, index=False)
