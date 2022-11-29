@@ -27,13 +27,14 @@ update_cohort_description(){
 conda_activate(){
     # Need to specify the path to ccil_vwd here if not in Desktop
     echo "conda activate ards ..."
-    cd $HOME/Desktop/ccil_vwd/
+	cd ..
+    cd $PWD/ccil_vwd/
     source activate ards
 }
 
 baseline(){
     echo "Preprocessed dataset and run baseline ..."    
-    python train.py -dp $data_path --cohort-description $data_path/anon-desc.csv --to-pickle processed_dataset.pkl
+    python train.py --data-path $anon_data_path --cohort-description $anon_data_path/anon-desc.csv --to-pickle processed_dataset.pkl
     echo "Preprocessing dataset finished !!"
 }
 

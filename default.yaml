@@ -1,2 +1,2 @@
-anon_data_path: ccil_vwd/anon_dataset       #anon_data_path is the path to your anonymized dataset e.g. anon/dataset/
-unanon_data_path:  ccil_vwd/unanon_dataset     #raw_patient_dir is the path to your unanonymized raw data directory e.g. unanon/dataset
+anon_data_path: ../ccil_vwd/anon_dataset       #anon_data_path is the path to your anonymized dataset e.g. anon/dataset/
+unanon_data_path:  ../ccil_vwd/unanon_dataset     #raw_patient_dir is the path to your unanonymized raw data directory e.g. unanon/dataset
