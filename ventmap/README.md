@@ -14,7 +14,7 @@ The goal is to make entire data preprocessing more easier and safer.
 
 ## Quick start
 
-`build_cohort.sh` is a shell script that helps you anonymize your dataset with random date shifted and random patient id replacement
+`anonymize_cohort.sh` is a shell script that helps you anonymize your dataset with random date shifted and random patient id replacement
 
 	# make sure you install yq on your machine
 	brew install yq 
