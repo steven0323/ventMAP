@@ -27,7 +27,7 @@ class BadDescriptorError(Exception):
 
 
 class VentilatorBase(object):
-    def __init__(self, descriptor):
+    def __init__(self, descriptor, date_format=None, new_format=False):
         """
         :param descriptor: The file descriptor to use
         """
@@ -42,15 +42,33 @@ class VentilatorBase(object):
         self.cur_abs_time = None
         self.vent_bn = 0
         self.rel_bn = 0
+
         try:
             self.descriptor = clear_descriptor_null_bytes(self.descriptor)
         except UnicodeDecodeError:
             raise BadDescriptorError('You seem to have opened a file with garbled bytes. you should open it using io.open(file, encoding="ascii", errors="ignore"')
 
         self.descriptor.seek(0)
-        first_line = self.descriptor.readline()
+
+        if new_format:
+            df = pd.read_csv(self.descriptor)
+            first_line = df.iloc[1].breath_datetime
+            filtered_df = df[["flow", "pressure"]]
+
+            new_row = pd.DataFrame({'flow':first_line, 'pressure':''}, index=[0])
+            filtered_df = pd.concat([new_row, filtered_df]).reset_index(drop=True)
+
+            self.descriptor = StringIO()
+            filtered_df.to_csv(self.descriptor, sep=",", header=False, index=False)
+        else:
+            first_line = self.descriptor.readline()
+        
+
         self.bs_col, self.ncol, self.ts_1st_col, self.ts_1st_row = detect_version_v2(first_line)
         self.descriptor.seek(0)
+
+        self.date_format = date_format
+
 
     def get_data(self, flow, pressure):
         return {
@@ -73,7 +91,10 @@ class VentilatorBase(object):
         try:
             self.abs_bs_time = parser.parse(ts)
         except:
-            self.abs_bs_time = datetime.strptime(ts, IN_DATETIME_FORMAT)
+            if self.date_format:
+                self.abs_bs_time = datetime.strptime(ts, self.date_format)
+            else:    
+                self.abs_bs_time = datetime.strptime(ts, IN_DATETIME_FORMAT)
 
     def set_abs_bs_time(self, row):
         if self.ts_1st_col:
