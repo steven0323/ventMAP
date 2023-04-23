@@ -111,6 +111,7 @@ class VentilatorBase(object):
 
     def extract_raw(self,
                     skip_breaths_without_be,
+                    new_format=False,
                     rel_bn_interval=[],
                     vent_bn_interval=[],
                     spec_rel_bns=[],
@@ -226,6 +227,7 @@ class HundredHzFile(VentilatorBase):
 
 def extract_raw(descriptor,
                 ignore_missing_bes,
+                new_format=False,
                 rel_bn_interval=[],
                 vent_bn_interval=[],
                 spec_rel_bns=[],
@@ -234,8 +236,8 @@ def extract_raw(descriptor,
     Deprecated method for extracting VWD. Newer implementations should look at
     using a specific ventilator class like PB840File.extract_raw
     """
-    pb840 = PB840File(descriptor)
-    return pb840.extract_raw(ignore_missing_bes, rel_bn_interval, vent_bn_interval, spec_rel_bns, spec_vent_bns)
+    pb840 = PB840File(descriptor, new_format=new_format)
+    return pb840.extract_raw(ignore_missing_bes, new_format, rel_bn_interval, vent_bn_interval, spec_rel_bns, spec_vent_bns)
 
 
 def real_time_extractor(descriptor,
