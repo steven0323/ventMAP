@@ -27,21 +27,21 @@ def write_breath_meta(array, outfile):
         writer.writerows(array)
 
 
-def get_file_breath_meta(file, tve_pos=True, ignore_missing_bes=True, rel_bn_interval=[], vent_bn_interval=[], to_data_frame=False, spec_vent_bns=[], spec_rel_bns=[]):
+def get_file_breath_meta(file, new_format=None, tve_pos=True, ignore_missing_bes=True, rel_bn_interval=[], vent_bn_interval=[], to_data_frame=False, spec_vent_bns=[], spec_rel_bns=[]):
     return _get_file_breath_meta(
-        get_production_breath_meta, file, tve_pos, ignore_missing_bes,
+        get_production_breath_meta, file, new_format, tve_pos, ignore_missing_bes,
         rel_bn_interval, vent_bn_interval, to_data_frame, spec_vent_bns, spec_rel_bns
     )
 
 
-def get_file_experimental_breath_meta(file, tve_pos=True, ignore_missing_bes=True, rel_bn_interval=[], vent_bn_interval=[], to_data_frame=False, spec_vent_bns=[], spec_rel_bns=[]):
+def get_file_experimental_breath_meta(file, new_format=None, tve_pos=True, ignore_missing_bes=True, rel_bn_interval=[], vent_bn_interval=[], to_data_frame=False, spec_vent_bns=[], spec_rel_bns=[]):
     return _get_file_breath_meta(
-        get_experimental_breath_meta, file, tve_pos, ignore_missing_bes,
+        get_experimental_breath_meta, file, new_format, tve_pos, ignore_missing_bes,
         rel_bn_interval, vent_bn_interval, to_data_frame, spec_vent_bns, spec_rel_bns
     )
 
 
-def _get_file_breath_meta(func, file, tve_pos, ignore_missing_bes, rel_bn_interval, vent_bn_interval, to_data_frame, spec_vent_bns, spec_rel_bns):
+def _get_file_breath_meta(func, file, new_format, tve_pos, ignore_missing_bes, rel_bn_interval, vent_bn_interval, to_data_frame, spec_vent_bns, spec_rel_bns):
     if isinstance(file, str):
         file = open(file, encoding='ascii', errors='ignore')
     if "experimental" in func.__name__:
@@ -54,7 +54,7 @@ def _get_file_breath_meta(func, file, tve_pos, ignore_missing_bes, rel_bn_interv
         for b in file:
             array.append(func(b))
     else:  # case the file is a file descriptor
-        for breath in extract_raw(file, ignore_missing_bes,
+        for breath in extract_raw(file, ignore_missing_bes, new_format,
             rel_bn_interval=rel_bn_interval, vent_bn_interval=vent_bn_interval,
             spec_vent_bns=spec_vent_bns, spec_rel_bns=spec_rel_bns):
             array.append(func(breath))
